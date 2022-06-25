@@ -1,0 +1,38 @@
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  category:
+    type: object
+    properties:
+      id:
+        type: string
+  tag:
+    type: string
+  imageUrl:
+    type: string
+  dateAdded:
+    type: string
+  likes:
+    type: integer
+x-examples:
+  example-1:
+    id: 3cd222e7-c3bf-4b9e-a350-c1db60bd6cb4
+    name: Max
+    category:
+      id: string
+    tag: GermanShepherd
+    imageUrl: /images/max
+    dateAdded: '2022-04-12'
+    likes: 5
+examples:
+  - id: 3cd222e7-c3bf-4b9e-a350-c1db60bd6cb4
+    name: Max
+    category:
+      id: string
+    tag: GermanShepherd
+    imageUrl: /images/max
+    dateAdded: '2022-04-12'
+    likes: 5

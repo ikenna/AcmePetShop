@@ -107,6 +107,7 @@ components:
         - name
         - category
         - dateAdded
+      x-internal: false
     Pet-Catgory:
       title: Pet-Catgory
       x-stoplight:
