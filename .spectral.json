@@ -547,6 +547,19 @@
           ]
         }
       ]
+    },
+    "test": {
+      "description": "",
+      "targets": [
+        {
+          "formats": [
+            "oas2"
+          ],
+          "given": [
+            ""
+          ]
+        }
+      ]
     }
   },
   "rules": {

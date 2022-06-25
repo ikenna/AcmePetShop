@@ -1,189 +1,102 @@
 openapi: 3.1.0
-x-stoplight:
-  id: eddrt5v81xjye
 info:
   title: Shopping API
   version: '1.0'
+  description: 'Acme Pet Shop''s Shopping API allows consumers browse and search for pets. Users can find pets by category, tag and other criteria. '
+  summary: 'Acme Pet Shop''s Shopping API '
+  contact:
+    name: John Smith
+    url: acmepetshop.co.uk
+    email: support@acmepetshop.co.uk
+  termsOfService: acmepetshop.co.uk/terms
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/users/{userId}':
-    parameters:
-      - schema:
-          type: integer
-        name: userId
-        in: path
-        required: true
-        description: Id of an existing user.
+  /pets:
     get:
-      summary: Get User Info by User ID
+      summary: List pets in the store.
       tags: []
       responses:
         '200':
-          description: User Found
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                Get User Alice Smith:
-                  value:
-                    id: 142
-                    firstName: Alice
-                    lastName: Smith
-                    email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
-                    emailVerified: true
-                    signUpDate: '2019-08-24'
-        '404':
-          description: User Not Found
-      operationId: get-users-userId
-      description: Retrieve the information of the user with the matching user ID.
-    patch:
-      summary: Update User Information
-      operationId: patch-users-userId
-      responses:
-        '200':
-          description: User Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                Updated User Rebecca Baker:
-                  value:
-                    id: 13
-                    firstName: Rebecca
-                    lastName: Baker
-                    email: rebecca@gmail.com
-                    dateOfBirth: '1985-10-02'
-                    emailVerified: false
-                    createDate: '2019-08-24'
-        '404':
-          description: User Not Found
-        '409':
-          description: Email Already Taken
-      description: Update the information of an existing user.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
-                  type: string
-            examples:
-              Update First Name:
-                value:
-                  firstName: Rebecca
-              Update Email:
-                value:
-                  email: rebecca@gmail.com
-              Update Last Name & Date of Birth:
-                value:
-                  lastName: Baker
-                  dateOfBirth: '1985-10-02'
-        description: Patch user properties to update.
-  /user:
-    post:
-      summary: Create New User
-      operationId: post-user
-      responses:
-        '200':
-          description: User Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                New User Bob Fellow:
-                  value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
-        '400':
-          description: Missing Required Information
-        '409':
-          description: Email Already Taken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                dateOfBirth:
-                  type: string
-                  format: date
-              required:
-                - firstName
-                - lastName
-                - email
-                - dateOfBirth
-            examples:
-              Create User Bob Fellow:
-                value:
-                  firstName: Bob
-                  lastName: Fellow
-                  email: bob.fellow@gmail.com
-                  dateOfBirth: '1996-08-24'
-        description: Post the necessary fields for the API to create a new user.
-      description: Create a new user.
+                type: object
+                properties:
+                  pets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pet'
+                required:
+                  - pets
+              examples: {}
+      operationId: get-pets
+      description: 'List pets in the store. By default results are sorted by the date added to store, most recent pets first.'
+      x-internal: false
 components:
   schemas:
-    User:
-      title: User
+    Pet:
+      title: Pet
+      x-stoplight:
+        id: 7mqnrn3ta9g0l
       type: object
-      description: ''
+      description: A pet for sale in the Acme Pet Shop.
       examples:
-        - id: 142
-          firstName: Alice
-          lastName: Smith
-          email: alice.smith@gmail.com
-          dateOfBirth: '1997-10-31'
-          emailVerified: true
-          signUpDate: '2019-08-24'
+        '0':
+          id: 3cd222e7-c3bf-4b9e-a350-c1db60bd6cb4
+          name: Max
+          category:
+            id: string
+          tag: GermanShepherd
+          imageUrl: /images/max
+          dateAdded: '2022-04-12'
+          likes: 5
       properties:
         id:
+          type: string
+          description: The unique identifier for the pet.
+        name:
+          type: string
+          description: |
+            The name of the pet.
+        category:
+          $ref: '#/components/schemas/Pet-Catgory'
+        tag:
+          type: string
+          description: Characterising labels of the pet.
+        imageUrl:
+          type: string
+          description: A link to the pet’s image.
+        dateAdded:
+          type: string
+          description: Date the pet became available in the store.
+          format: date
+          example: '2022-04-12'
+        likes:
           type: integer
-          description: Unique identifier for the given user.
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        dateOfBirth:
-          type: string
-          format: date
-          example: '1997-10-31'
-        emailVerified:
-          type: boolean
-          description: Set to true if the user's email has been verified.
-        createDate:
-          type: string
-          format: date
-          description: The date that the user was created.
+          description: Number of users who have clicked the ‘like’ button for this pet.
       required:
         - id
-        - firstName
-        - lastName
-        - email
-        - emailVerified
+        - name
+        - category
+        - dateAdded
+    Pet-Catgory:
+      title: Pet-Catgory
+      x-stoplight:
+        id: kf0naj13ce82t
+      type: object
+      properties:
+        id:
+          type: string
+      description: The classification group of a pet.
+  securitySchemes:
+    api-key-1:
+      name: b21b569b-0d38-4c5c-9a8e-b27c4abaa4be
+      type: apiKey
+      in: header
+      description: ''
+security:
+  - API Key - 1: []
+tags:
+  - name: search
