@@ -45,6 +45,13 @@ paths:
       operationId: get-pets
       description: 'List pets in the store. By default results are sorted by the date added to store, most recent pets first.'
       x-internal: false
+  /pets/search:
+    post:
+      summary: Search for a pet
+      tags:
+        - search
+      responses: {}
+      operationId: post-pets-search
 components:
   schemas:
     Pet:
