@@ -30,7 +30,18 @@ paths:
                       $ref: '#/components/schemas/Pet'
                 required:
                   - pets
-              examples: {}
+              examples:
+                example-1:
+                  value:
+                    pets:
+                      - id: string
+                        name: string
+                        category:
+                          id: string
+                        tag: string
+                        imageUrl: string
+                        dateAdded: '2022-04-12'
+                        likes: 0
       operationId: get-pets
       description: 'List pets in the store. By default results are sorted by the date added to store, most recent pets first.'
       x-internal: false
@@ -54,20 +65,28 @@ components:
           likes: 5
       properties:
         id:
-          type: string
+          type: integer
           description: The unique identifier for the pet.
         name:
           type: string
           description: |
             The name of the pet.
+          maxLength: 50
+          minLength: 0
+          example: Max
         category:
           $ref: '#/components/schemas/Pet-Catgory'
         tag:
           type: string
           description: Characterising labels of the pet.
+          minLength: 0
+          maxLength: 20
+          example: Dog
         imageUrl:
           type: string
           description: A link to the pet’s image.
+          format: uri
+          example: 'https://acmeshop.co.uk/images/max.jpeg'
         dateAdded:
           type: string
           description: Date the pet became available in the store.
